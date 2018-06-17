@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -9,16 +10,14 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class RatingsController extends AppController
-{
+class RatingsController extends AppController {
 
     /**
      * Index method
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
-    {
+    public function index() {
         $ratings = $this->paginate($this->Ratings);
 
         $this->set(compact('ratings'));
@@ -31,8 +30,7 @@ class RatingsController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $rating = $this->Ratings->get($id, [
             'contain' => []
         ]);
@@ -45,8 +43,7 @@ class RatingsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $rating = $this->Ratings->newEntity();
         if ($this->request->is('post')) {
             $rating = $this->Ratings->patchEntity($rating, $this->request->getData());
@@ -67,8 +64,7 @@ class RatingsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $rating = $this->Ratings->get($id, [
             'contain' => []
         ]);
@@ -91,8 +87,7 @@ class RatingsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $rating = $this->Ratings->get($id);
         if ($this->Ratings->delete($rating)) {
@@ -103,4 +98,5 @@ class RatingsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
 }

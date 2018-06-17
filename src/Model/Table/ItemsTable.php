@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -21,8 +22,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Item[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Item findOrCreate($search, callable $callback = null, $options = [])
  */
-class ItemsTable extends Table
-{
+class ItemsTable extends Table {
 
     /**
      * Initialize method
@@ -30,8 +30,7 @@ class ItemsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('items');
@@ -52,28 +51,30 @@ class ItemsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('title')
-            ->maxLength('title', 255)
-            ->requirePresence('title', 'create')
-            ->notEmpty('title');
+                ->scalar('title')
+                ->maxLength('title', 255)
+                ->requirePresence('title', 'create')
+                ->notEmpty('title');
 
         $validator
-            ->scalar('description')
-            ->maxLength('description', 255)
-            ->allowEmpty('description');
+                ->scalar('description')
+                ->maxLength('description', 255)
+                ->allowEmpty('description');
 
         $validator
-            ->scalar('image_path')
-            ->maxLength('image_path', 255)
-            ->allowEmpty('image_path');
+                ->scalar('image_path')
+                ->maxLength('image_path', 255)
+                ->allowEmpty('image_path');
 
         return $validator;
     }
+
+
+
 }

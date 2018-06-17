@@ -70,10 +70,6 @@ class BookingsTable extends Table
             ->allowEmpty('date_borrow');
 
         $validator
-            ->dateTime('date_due_return')
-            ->allowEmpty('date_due_return');
-
-        $validator
             ->dateTime('date_return')
             ->allowEmpty('date_return');
 

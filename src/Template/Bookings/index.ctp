@@ -1,13 +1,17 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $bookings
+ * @var \App\Model\Entity\Booking[]|\Cake\Collection\CollectionInterface $bookings
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Booking'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="bookings index large-9 medium-8 columns content">
@@ -20,7 +24,6 @@
                 <th scope="col"><?= $this->Paginator->sort('item_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('date_update') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('date_borrow') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('date_due_return') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('date_return') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -29,11 +32,10 @@
             <?php foreach ($bookings as $booking): ?>
             <tr>
                 <td><?= $this->Number->format($booking->id) ?></td>
-                <td><?= $this->Number->format($booking->user_id) ?></td>
-                <td><?= $this->Number->format($booking->item_id) ?></td>
+                <td><?= $booking->has('user') ? $this->Html->link($booking->user->id, ['controller' => 'Users', 'action' => 'view', $booking->user->id]) : '' ?></td>
+                <td><?= $booking->has('item') ? $this->Html->link($booking->item->title, ['controller' => 'Items', 'action' => 'view', $booking->item->id]) : '' ?></td>
                 <td><?= h($booking->date_update) ?></td>
                 <td><?= h($booking->date_borrow) ?></td>
-                <td><?= h($booking->date_due_return) ?></td>
                 <td><?= h($booking->date_return) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $booking->id]) ?>

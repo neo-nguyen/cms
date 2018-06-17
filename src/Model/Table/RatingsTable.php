@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -21,8 +22,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
  */
-class RatingsTable extends Table
-{
+class RatingsTable extends Table {
 
     /**
      * Initialize method
@@ -30,8 +30,7 @@ class RatingsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('ratings');
@@ -54,20 +53,19 @@ class RatingsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('stars')
-            ->requirePresence('stars', 'create')
-            ->notEmpty('stars');
+                ->integer('stars')
+                ->requirePresence('stars', 'create')
+                ->notEmpty('stars');
 
         $validator
-            ->dateTime('created_at')
-            ->allowEmpty('created_at');
+                ->dateTime('created_at')
+                ->allowEmpty('created_at');
 
         return $validator;
     }
@@ -79,11 +77,17 @@ class RatingsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['item_id'], 'Items'));
 
         return $rules;
     }
+
+    public function getStars($itemId) {
+        $query = $this->find();
+        $query->select(['avg' => $query->func()->avg('stars')])->where(['item_id' => $itemId]);
+        return $query->toArray()[0]->avg | 0;
+    }
+
 }

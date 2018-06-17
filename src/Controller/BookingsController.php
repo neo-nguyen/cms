@@ -6,6 +6,7 @@ use App\Controller\AppController;
 /**
  * Bookings Controller
  *
+ * @property \App\Model\Table\BookingsTable $Bookings
  *
  * @method \App\Model\Entity\Booking[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -19,6 +20,9 @@ class BookingsController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Users', 'Items']
+        ];
         $bookings = $this->paginate($this->Bookings);
 
         $this->set(compact('bookings'));
@@ -34,7 +38,7 @@ class BookingsController extends AppController
     public function view($id = null)
     {
         $booking = $this->Bookings->get($id, [
-            'contain' => []
+            'contain' => ['Users', 'Items']
         ]);
 
         $this->set('booking', $booking);
@@ -57,7 +61,9 @@ class BookingsController extends AppController
             }
             $this->Flash->error(__('The booking could not be saved. Please, try again.'));
         }
-        $this->set(compact('booking'));
+        $users = $this->Bookings->Users->find('list', ['limit' => 200]);
+        $items = $this->Bookings->Items->find('list', ['limit' => 200]);
+        $this->set(compact('booking', 'users', 'items'));
     }
 
     /**
@@ -81,7 +87,9 @@ class BookingsController extends AppController
             }
             $this->Flash->error(__('The booking could not be saved. Please, try again.'));
         }
-        $this->set(compact('booking'));
+        $users = $this->Bookings->Users->find('list', ['limit' => 200]);
+        $items = $this->Bookings->Items->find('list', ['limit' => 200]);
+        $this->set(compact('booking', 'users', 'items'));
     }
 
     /**

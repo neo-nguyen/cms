@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  * @property int $item_id
  * @property \Cake\I18n\FrozenTime $date_update
  * @property \Cake\I18n\FrozenTime $date_borrow
- * @property \Cake\I18n\FrozenTime $date_due_return
  * @property \Cake\I18n\FrozenTime $date_return
  *
  * @property \App\Model\Entity\User $user
@@ -34,7 +33,6 @@ class Booking extends Entity
         'item_id' => true,
         'date_update' => true,
         'date_borrow' => true,
-        'date_due_return' => true,
         'date_return' => true,
         'user' => true,
         'item' => true

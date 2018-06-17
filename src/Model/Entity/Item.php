@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Item Entity
@@ -13,8 +15,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Booking[] $bookings
  */
-class Item extends Entity
-{
+class Item extends Entity {
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -31,4 +32,19 @@ class Item extends Entity
         'image_path' => true,
         'bookings' => true
     ];
+
+    public function getRank() {
+        $ratingsTable = TableRegistry::get('Ratings');
+        $query = $ratingsTable->find();
+        $query->select(['avg' => $query->func()->avg('stars')])->where(['item_id' => $this->id]);
+        return $query->toArray()[0]->avg | 0;
+    }
+
+    public function getState() {
+        $ratingsTable = TableRegistry::get('Ratings');
+        $query = $ratingsTable->find();
+        $query->select(['avg' => $query->func()->avg('stars')])->where(['item_id' => $this->id]);
+        return $query->toArray()[0]->avg | 0;
+    }
+
 }
